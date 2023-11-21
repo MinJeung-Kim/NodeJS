@@ -4,9 +4,10 @@ import * as UserRepository from "./auth.js";
 
 const tweetSchema = new Mongoose.Schema(
   {
-    text: { type: String, require: true },
-    name: { type: String, require: true },
-    username: { type: String, require: true },
+    text: { type: String, required: true },
+    userId: { type: String, required: true },
+    name: { type: String, required: true },
+    username: { type: String, required: true },
     url: String,
   },
   { timestamps: true }
@@ -27,7 +28,7 @@ export async function getById(id) {
   return Tweet.findById(id);
 }
 
-export async function create(text, userId) { 
+export async function create(text, userId) {
   return UserRepository.findById(userId).then((user) =>
     new Tweet({
       text,
@@ -39,10 +40,16 @@ export async function create(text, userId) {
 }
 
 export async function update(id, text) {
-  return Tweet.findByIdAndUpdate(id, { text }, { returnOriginal: false });
+  return Tweet.findByIdAndUpdate(
+    id,
+    { text },
+    {
+      new: true,
+      upsert: true,
+    }
+  );
 }
 
 export async function remove(id) {
-  console.log(id, text);
   return Tweet.findByIdAndDelete(id);
 }
