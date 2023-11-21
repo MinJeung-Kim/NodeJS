@@ -9,7 +9,6 @@ import authRoter from "./router/auth.js";
 import { config } from "./config.js";
 import { initSocket } from "./connection/socket.js";
 import { connectDB } from "./db/database.js";
-import { MongoClient } from "mongodb";
 
 const app = express();
 
@@ -36,4 +35,3 @@ connectDB()
     initSocket(server);
   })
   .catch(console.error);
-
