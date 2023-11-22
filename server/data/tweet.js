@@ -2,6 +2,7 @@ import Mongoose from "mongoose";
 import { useVirtualId } from "../db/database.js";
 import * as UserRepository from "./auth.js";
 
+// 스키마 작성
 const tweetSchema = new Mongoose.Schema(
   {
     text: { type: String, required: true },
@@ -14,6 +15,7 @@ const tweetSchema = new Mongoose.Schema(
 );
 
 useVirtualId(tweetSchema);
+// 모델 생성
 const Tweet = Mongoose.model("Tweet", tweetSchema);
 
 export async function getAll() {
