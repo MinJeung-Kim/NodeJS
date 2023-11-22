@@ -12,9 +12,14 @@ import { sequelize } from "./db/database.js";
 
 const app = express();
 
+const corsOption = {
+  origin: config.cors.allowedOrigin,
+  optionsSuccessStatus: 200,
+};
+
 app.use(express.json());
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOption));
 app.use(morgan("tiny"));
 
 app.use("/tweets", tweetsRoter);
@@ -31,6 +36,7 @@ app.use((error, req, res, next) => {
 
 // sync 모델에서 정의한 스키마가 존재하지 않는다면 테이블을 새로 생성.
 sequelize.sync().then(() => {
-  const server = app.listen(config.host.port);
+  console.log(`Server is started.... ${new Date()}`);
+  const server = app.listen(config.port);
   initSocket(server);
 });
